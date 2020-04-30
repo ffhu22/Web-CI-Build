@@ -11,7 +11,7 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-	<property name="warFileName" value="QA_Assignment.war"></property>
+	<property name="warFileName" value="Web_Application.war"></property>
     <path id="Apache Tomcat v9.0 [Apache Tomcat v9.0].libraryclasspath">
         <pathelement location="${basedir}/lib/ecj-4.15.jar"/>
         <pathelement location="${basedir}/lib/jasper-el.jar"/>
