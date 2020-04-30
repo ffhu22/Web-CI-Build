@@ -3,12 +3,15 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Web_Application">
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="Web_Application">
     <property environment="env"/>
+	<property file="build.properties"/>	
     <property name="ECLIPSE_HOME" value="../../Downloads/eclipse-j2ee/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+	<property name="warFileName" value="QA_Assignment.war"></property>
     <path id="Apache Tomcat v9.0 [Apache Tomcat v9.0].libraryclasspath">
         <pathelement location="${basedir}/lib/ecj-4.15.jar"/>
         <pathelement location="${basedir}/lib/jasper-el.jar"/>
@@ -61,7 +64,12 @@
         </copy>
     </target>
     <target name="clean">
-        <delete dir="build/classes"/>
+        <delete>
+        	<fileset dir="build/classes"/>
+        	<!-- 删除原有war包。 -->
+        	<fileset file="${basedir}/${warFileName}" />
+        </delete>	
+    	
     </target>
     <target depends="clean, build-project" name="build"/>
     <target depends="init" name="build-project">
@@ -71,4 +79,30 @@
             <classpath refid="Web_Application.classpath"/>
         </javac>
     </target>
+
+    <!-- 定义默认任务，将class文件集合成war包。 -->
+    <target depends="clean, build-project" name="build-war">
+        <!-- 删除原有war包。 -->
+        <delete dir="${basedir}/${warFileName}" />
+        <!-- 建立新war包。 -->
+        <war destfile="${basedir}/${warFileName}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
+            <!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->
+            <fileset dir="${basedir}/WebContent">
+                <include name="**/**.*" />
+                <exclude name="**/*.jar"/>
+                <exclude name="**/*.class"/>
+            </fileset>
+            <!-- 将jar和class文件拷贝到war包的对应路径下。 -->
+            <lib dir="${basedir}/lib" />
+            <classes dir="${basedir}/build/classes" />
+        </war>
+    </target>
+	
+	<target depends = "build-war" name = "deploy-war" description = "Deploy application as a WAR file">
+	      <copy todir = "${deploy.path}" preservelastmodified = "true">
+	         <fileset dir = "${basedir}">
+	            <include name = "*.war"/>
+	         </fileset>
+	      </copy>
+	 </target>	
 </project>
