@@ -55,6 +55,11 @@
         <pathelement location="${basedir}/lib//byte-buddy-agent-1.10.5.jar"/>
         <pathelement location="${basedir}/lib//objenesis-2.6.jar"/>
     </path>
+    <path id="Junit.libraryclasspath">
+        <pathelement location="build/classes"/>
+        <pathelement location="${basedir}/lib/org.junit_4.13.0.v20200204-1500.jar"/>
+    	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>	
     <target name="init">
         <mkdir dir="build/classes"/>
         <copy includeemptydirs="false" todir="build/classes">
@@ -62,37 +67,45 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="unittest">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>    	
     </target>
     <target name="clean">
         <delete quiet="true">
         	<fileset dir="build/classes"/>
         	<!-- 删除原有war包。 -->
-        	<fileset file="${basedir}/${warFileName}" />
-        </delete>	
-    	
+        	<fileset file="${basedir}/${warFileName}"/>
+        	<!-- 删除原有报告-->
+        	<fileset dir="testReport"/>        	
+        </delete>
     </target>
     <target depends="clean, build-project" name="build"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
+        	<src path="unittest"/>
             <classpath refid="Web_Application.classpath"/>
+        	<classpath refid="Junit.libraryclasspath"/>
         </javac>
     </target>
 
     <!-- 定义默认任务，将class文件集合成war包。 -->
-    <target depends="clean, build-project" name="build-war">
+    <target depends="junittest" name="build-war">
         <!-- 建立新war包。 -->
         <war destfile="${basedir}/${warFileName}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
             <!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->
             <fileset dir="${basedir}/WebContent">
-                <include name="**/**.*" />
+                <include name="**/**.*"/>
                 <exclude name="**/*.jar"/>
                 <exclude name="**/*.class"/>
             </fileset>
             <!-- 将jar和class文件拷贝到war包的对应路径下。 -->
-            <lib dir="${basedir}/lib" />
-            <classes dir="${basedir}/build/classes" />
+            <lib dir="${basedir}/lib"/>
+            <classes dir="${basedir}/build/classes"/>
         </war>
     </target>
 	
@@ -103,4 +116,33 @@
 	         </fileset>
 	      </copy>
 	 </target>	
+
+	<target name="junittest" depends="build"> 
+		<delete dir="${basedir}/testReport" quiet="true"/>
+		<mkdir dir="${basedir}/testReport" />
+	 	
+		<!--执行JUnit测试用例--> 
+		<junit printsummary="yes"> 
+			<classpath refid="Junit.libraryclasspath"/> 
+			<formatter type="xml"/> 
+			<batchtest todir="${basedir}/testReport"> 
+				<fileset dir="build/classes"> 
+					<include name="**/*Test.class"/> 
+				</fileset> 
+			</batchtest> 
+		</junit> 
+		
+		<!--生成html的测试报告--> 
+		<junitreport todir="${basedir}/testReport"> 
+			<fileset dir="${basedir}/testReport">
+				<include name="TEST-*.xml"/> 
+			</fileset> 
+			<report format="frames" todir="${basedir}/testReport"/>
+		</junitreport> 
+	 
+		<!--删除xml的测试结果-->
+		<delete dir="${basedir}/testReport" quiet="true">
+			<include name="*.xml" />
+		</delete> 
+	</target>	
 </project>
