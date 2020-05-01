@@ -64,7 +64,7 @@
         </copy>
     </target>
     <target name="clean">
-        <delete>
+        <delete quiet="true">
         	<fileset dir="build/classes"/>
         	<!-- 删除原有war包。 -->
         	<fileset file="${basedir}/${warFileName}" />
@@ -82,8 +82,6 @@
 
     <!-- 定义默认任务，将class文件集合成war包。 -->
     <target depends="clean, build-project" name="build-war">
-        <!-- 删除原有war包。 -->
-        <delete dir="${basedir}/${warFileName}" />
         <!-- 建立新war包。 -->
         <war destfile="${basedir}/${warFileName}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
             <!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->
