@@ -7,7 +7,7 @@
 <title>Logon success</title>
 </head>
 <body>
-<h1>${param.username}</h1> 
+<h1>Welcome ${param.username}</h1> 
 <h1>You are in homepage</h1>
 <input type="button" value="退出" onclick="javascript:history.go(-1);" />
 </body>
