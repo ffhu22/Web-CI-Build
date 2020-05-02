@@ -43,5 +43,6 @@
 	<classpathentry kind="lib" path="lib/objenesis-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/org.junit_4.13.0.v20200204-1500.jar"/>
 	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-4.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

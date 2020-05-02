@@ -59,6 +59,8 @@
         <pathelement location="build/classes"/>
         <pathelement location="${basedir}/lib/org.junit_4.13.0.v20200204-1500.jar"/>
     	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    	<pathelement location="${basedir}/lib/easymock-4.2.jar"/>
+    	<pathelement location="${basedir}/lib/servlet-api.jar"/>
     </path>	
     <target name="init">
         <mkdir dir="build/classes"/>
