@@ -17,14 +17,15 @@ import org.openqa.selenium.WebDriver;
  *
  */
 public class SeleniumUtils {
+	private static String systemPath = "/Users/fangfanghu/Documents/All/Careers/202002job-hunting/Companies/skycope/QA_assignment/qa_assignment/";
 
 	public static boolean verifyScreenshot(WebDriver driver, String name) throws IOException {
-		File fileA=new File("selenium/resources/" + name);
+		File fileA=new File(systemPath + "selenium/resources/" + name);
 		//if(!fileA.exists()) {
 			File screenShot=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(screenShot, fileA);
 		//}
-		File fileB=new File("selenium/resourcesraw/" + name);
+		File fileB=new File(systemPath + "selenium/resourcesraw/" + name);
 		BufferedImage dataInput=ImageIO.read(fileA);
 		DataBuffer bufferFileA=dataInput.getData().getDataBuffer();
 		int FileA=bufferFileA.getSize();
