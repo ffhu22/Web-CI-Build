@@ -57,6 +57,13 @@
 	<classpathentry kind="lib" path="lib/opentracing-tracerresolver-0.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/opentracing-util-0.33.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.6.jar"/>
+	<classpathentry kind="lib" path="lib/jacocoagent.jar"/>
+	<classpathentry kind="lib" path="lib/jacocoant.jar"/>
+	<classpathentry kind="lib" path="lib/jacococli.jar"/>
+	<classpathentry kind="lib" path="lib/org.jacoco.agent-0.8.5.201910111838.jar"/>
+	<classpathentry kind="lib" path="lib/org.jacoco.ant-0.8.5.201910111838.jar"/>
+	<classpathentry kind="lib" path="lib/org.jacoco.core-0.8.5.201910111838.jar"/>
+	<classpathentry kind="lib" path="lib/org.jacoco.report-0.8.5.201910111838.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

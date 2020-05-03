@@ -4,7 +4,7 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="Web_Application">
+<project basedir="." default="build-main" name="Web_Application" xmlns:jacoco="antlib:org.jacoco.ant">
     <property environment="env"/>
 	<property file="build.properties"/>	
     <property name="ECLIPSE_HOME" value="../../Downloads/eclipse-j2ee/eclipse/"/>
@@ -12,6 +12,9 @@
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
 	<property name="warFileName" value="Web_Application.war"></property>
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="lib/jacocoant.jar" />
+    </taskdef>
     <path id="Apache Tomcat v9.0 [Apache Tomcat v9.0].libraryclasspath">
         <pathelement location="${basedir}/lib/ecj-4.15.jar"/>
         <pathelement location="${basedir}/lib/jasper-el.jar"/>
@@ -56,7 +59,8 @@
         <pathelement location="${basedir}/lib//objenesis-2.6.jar"/>
     </path>
     <path id="Junit.libraryclasspath">
-        <pathelement location="build/classes"/>
+        <pathelement location="build/test/classes"/>
+    	<pathelement location="build/classes"/>
         <pathelement location="${basedir}/lib/org.junit_4.13.0.v20200204-1500.jar"/>
     	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     	<pathelement location="${basedir}/lib/easymock-4.2.jar"/>
@@ -81,42 +85,51 @@
     	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     	<pathelement location="${basedir}/lib/commons-io-2.6.jar"/>  
     </path>		
-    <target name="init">
+    <!--target name="init">
         <mkdir dir="build/classes"/>
         <copy includeemptydirs="false" todir="build/classes">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+    	
         <copy includeemptydirs="false" todir="build/classes">
             <fileset dir="unittest">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>    	
-    </target>
+    </target-->
 
     <target name="clean">
-        <delete quiet="true">
-        	<fileset dir="build/classes"/>
-        	<!-- 删除原有war包。 -->
-        	<fileset file="${basedir}/${warFileName}"/>
-        	<!-- 删除原有报告-->
-        	<fileset dir="testReport"/>        	
-        </delete>
+    	<delete dir="build" quiet="true"/>
+    	<delete dir="${basedir}/testReport" quiet="true"/>
+    	<delete dir="${basedir}/junitResult" quiet="true"/>
+    	<delete dir="${basedir}/jacocoCoverage" quiet="true"/>
+    	<delete file="${basedir}/${warFileName}" quiet="true"/>
     </target>
-    <target depends="clean, build-project" name="build"/>
-    <target depends="init" name="build-project">
+	
+    <target name="build-main" depends="clean">
+    	<delete dir="build/classes" quiet="true"/>
+    	<mkdir dir="build/classes" />
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
-        	<src path="unittest"/>
             <classpath refid="Web_Application.classpath"/>
-        	<classpath refid="Junit.libraryclasspath"/>
         </javac>
     </target>
 
+    <target name="build-test" depends="build-main">
+    	<delete dir="build/test/classes" quiet="true"/>
+    	<mkdir dir="build/test/classes" />
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/test/classes" includeantruntime="false" source="${source}" target="${target}">
+        	<src path="unittest"/>
+        	<classpath refid="Junit.libraryclasspath"/>
+        </javac>
+    </target>	
+
     <!-- 定义默认任务，将class文件集合成war包。 -->
-    <target depends="junittest" name="build-war">
+    <target name="build-war" depends="coveragereport">
         <!-- 建立新war包。 -->
         <war destfile="${basedir}/${warFileName}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
             <!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->
@@ -131,7 +144,7 @@
         </war>
     </target>
 	
-	<target depends = "build-war" name = "deploy-war" description = "Deploy application as a WAR file">
+	<target name = "deploy-war" depends = "build-war" description = "Deploy application as a WAR file">
 	      <copy todir = "${deploy.path}" preservelastmodified = "true">
 	         <fileset dir = "${basedir}">
 	            <include name = "*.war"/>
@@ -139,11 +152,10 @@
 	      </copy>
 	 </target>	
 
-	<target name="junittest" depends="build"> 
+	<!--target name="junittest" depends="build"> 
 		<delete dir="${basedir}/testReport" quiet="true"/>
 		<mkdir dir="${basedir}/testReport" />
 	 	
-		<!--执行JUnit测试用例--> 
 		<junit printsummary="yes"> 
 			<classpath refid="Junit.libraryclasspath"/> 
 			<formatter type="xml"/> 
@@ -153,8 +165,7 @@
 				</fileset> 
 			</batchtest> 
 		</junit> 
-		
-		<!--生成html的测试报告--> 
+
 		<junitreport todir="${basedir}/testReport"> 
 			<fileset dir="${basedir}/testReport">
 				<include name="TEST-*.xml"/> 
@@ -162,13 +173,68 @@
 			<report format="frames" todir="${basedir}/testReport"/>
 		</junitreport> 
 	 
-		<!--删除xml的测试结果-->
 		<delete dir="${basedir}/testReport" quiet="true">
 			<include name="*.xml" />
 		</delete> 
-	</target>	
+	</target-->	
+	
+	<!-- ******************* Coverage ************************-->
+	<target name="junittest" depends="build-test">  
+		<delete dir="${basedir}/junitResult" quiet="true"/>
+		<mkdir dir="${basedir}/junitResult" />
+	        <jacoco:coverage destfile="${basedir}/jacoco.exec">
+	    		<junit printsummary="yes" fork="true"> 
+	    			<classpath>
+	    				<path refid="Junit.libraryclasspath"/> 
+	    				<pathelement location="build/test/classes"/> 
+	    			</classpath>
+	    			<formatter type="xml"/> 
+	    			<batchtest todir="${basedir}/junitResult"> 
+	    				<fileset dir="unittest" includes="**/*Test.java"/> 
+	    			</batchtest> 
+	    		</junit> 
+	        </jacoco:coverage>
+		<!--生成Junit html的测试报告--> 
+		<delete dir="${basedir}/testReport" quiet="true"/>
+		<mkdir dir="${basedir}/testReport" />
+		<junitreport todir="${basedir}/testReport"> 
+			<fileset dir="${basedir}/junitResult">
+				<include name="TEST-*.xml"/> 
+			</fileset> 
+			<report format="frames" todir="${basedir}/testReport"/>
+		</junitreport> 
+	 
+		<!--删除xml的测试结果-->
+		<!--delete dir="${basedir}/junitResult" quiet="true">
+			<include name="*.xml" />
+		</delete--> 	
+	</target>
 
 
+	<target name="coveragereport" depends="junittest">
+		<delete dir="${basedir}/jacocoCoverage" quiet="true"/>
+		<mkdir dir="${basedir}/jacocoCoverage" />
+	        <jacoco:report>  
+	            <executiondata>  
+	                <file file="${basedir}/jacoco.exec" />  
+	            </executiondata>  
+	            <structure name="unit test coverage rate report.">  
+	                <classfiles>  
+	                	<fileset dir="build/classes"/>
+	                </classfiles>  
+	                <sourcefiles encoding="UTF-8">
+	                	<fileset dir="src"/>
+	                </sourcefiles>
+	            </structure>
+	            <html footer="footer" destdir="${basedir}/jacocoCoverage" />  
+	            <csv destfile="${basedir}/jacocoCoverage/coverage-report.csv" />  
+	            <xml destfile="${basedir}/jacocoCoverage/coverage-report.xml" />  
+	        </jacoco:report>
+	    </target>
+
+	
+	<!-- ******************* Selenium ************************-->
+	
     <target name="clean-selenium">
         <delete quiet="true">
         	<fileset dir="build/selenium/classes"/>
@@ -177,16 +243,18 @@
         </delete>
     </target>	
 	
-    <target name="init-selenium">
+    <!--target name="init-selenium">
         <mkdir dir="build/selenium/classes"/>
         <copy includeemptydirs="false" todir="build/selenium/classes">
             <fileset dir="selenium">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy> 	
-    </target>	
-    <target depends="init-selenium" name="build-selenium-test">
+    </target-->	
+    <target name="build-selenium-test">
         <echo message="Build Selenium Test Class"/>
+		<delete dir="${basedir}/build/selenium/classes" quiet="true"/>
+		<mkdir dir="${basedir}/build/selenium/classes" />
         <javac debug="true" debuglevel="${debuglevel}" destdir="build/selenium/classes" includeantruntime="false" source="${source}" target="${target}">
             <src path="selenium"/>
             <classpath refid="Web_Application.classpath"/>
