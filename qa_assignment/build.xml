@@ -79,6 +79,7 @@
     	<pathelement location="${basedir}/lib/opentracing-util-0.33.0.jar"/>  
     	<pathelement location="${basedir}/lib/org.junit_4.13.0.v20200204-1500.jar"/>
     	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    	<pathelement location="${basedir}/lib/commons-io-2.6.jar"/>  
     </path>		
     <target name="init">
         <mkdir dir="build/classes"/>
@@ -171,6 +172,7 @@
     <target name="clean-selenium">
         <delete quiet="true">
         	<fileset dir="build/selenium/classes"/>
+        	<fileset dir="selenium/resources"/>   
         	<fileset dir="testReportSelenium"/>        	
         </delete>
     </target>	
