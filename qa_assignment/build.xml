@@ -85,20 +85,6 @@
     	<pathelement location="${basedir}/lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     	<pathelement location="${basedir}/lib/commons-io-2.6.jar"/>  
     </path>		
-    <!--target name="init">
-        <mkdir dir="build/classes"/>
-        <copy includeemptydirs="false" todir="build/classes">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    	
-        <copy includeemptydirs="false" todir="build/classes">
-            <fileset dir="unittest">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>    	
-    </target-->
 
     <target name="clean">
     	<delete dir="build" quiet="true"/>
@@ -151,39 +137,13 @@
 	         </fileset>
 	      </copy>
 	 </target>	
-
-	<!--target name="junittest" depends="build"> 
-		<delete dir="${basedir}/testReport" quiet="true"/>
-		<mkdir dir="${basedir}/testReport" />
-	 	
-		<junit printsummary="yes"> 
-			<classpath refid="Junit.libraryclasspath"/> 
-			<formatter type="xml"/> 
-			<batchtest todir="${basedir}/testReport"> 
-				<fileset dir="build/classes"> 
-					<include name="**/*Test.class"/> 
-				</fileset> 
-			</batchtest> 
-		</junit> 
-
-		<junitreport todir="${basedir}/testReport"> 
-			<fileset dir="${basedir}/testReport">
-				<include name="TEST-*.xml"/> 
-			</fileset> 
-			<report format="frames" todir="${basedir}/testReport"/>
-		</junitreport> 
-	 
-		<delete dir="${basedir}/testReport" quiet="true">
-			<include name="*.xml" />
-		</delete> 
-	</target-->	
 	
 	<!-- ******************* Coverage ************************-->
 	<target name="junittest" depends="build-test">  
 		<delete dir="${basedir}/junitResult" quiet="true"/>
 		<mkdir dir="${basedir}/junitResult" />
 	        <jacoco:coverage destfile="${basedir}/jacoco.exec">
-	    		<junit printsummary="yes" fork="true"> 
+	    		<junit printsummary="yes" fork="true" failureproperty="junit.failure"> 
 	    			<classpath>
 	    				<path refid="Junit.libraryclasspath"/> 
 	    				<pathelement location="build/test/classes"/> 
@@ -194,6 +154,7 @@
 	    			</batchtest> 
 	    		</junit> 
 	        </jacoco:coverage>
+		
 		<!--生成Junit html的测试报告--> 
 		<delete dir="${basedir}/testReport" quiet="true"/>
 		<mkdir dir="${basedir}/testReport" />
@@ -208,9 +169,11 @@
 		<!--delete dir="${basedir}/junitResult" quiet="true">
 			<include name="*.xml" />
 		</delete--> 	
+		
+		<fail message="Junit test failed" if='junit.failure'>
+		</fail>		
 	</target>
-
-
+	
 	<target name="coveragereport" depends="junittest">
 		<delete dir="${basedir}/jacocoCoverage" quiet="true"/>
 		<mkdir dir="${basedir}/jacocoCoverage" />
@@ -230,6 +193,18 @@
 	            <csv destfile="${basedir}/jacocoCoverage/coverage-report.csv" />  
 	            <xml destfile="${basedir}/jacocoCoverage/coverage-report.xml" />  
 	        </jacoco:report>
+		
+		<loadresource property="coveragePercentage" >
+				<file file="${basedir}/jacocoCoverage/index.html" /> 
+			<filterchain>
+				<!--tr><td>Total</td><td class="bar">12 of 175</td><td class="ctr2" Do not remove-->
+				<replaceregex pattern="^([\s\S]*)((&lt;)td(&gt;)Total(&lt;)\/td(&gt;)(&lt;)td class\=(&quot;)bar(&quot;)(&gt;)([1-9]\d*) of ([1-9]\d*)(&lt;)\/td(&gt;)(&lt;)td class\=(&quot;)ctr2(&quot;)(&gt;))" replace=""/>
+				<replaceregex pattern="(\%(&lt;)\/td(&gt;))([\s\S]*)$" replace=""/>
+				</filterchain>
+		</loadresource>
+		
+		<fail message="Code Coverage is under 80%" if='junit.failure'>
+		</fail>		
 	    </target>
 
 	
@@ -243,14 +218,6 @@
         </delete>
     </target>	
 	
-    <!--target name="init-selenium">
-        <mkdir dir="build/selenium/classes"/>
-        <copy includeemptydirs="false" todir="build/selenium/classes">
-            <fileset dir="selenium">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy> 	
-    </target-->	
     <target name="build-selenium-test">
         <echo message="Build Selenium Test Class"/>
 		<delete dir="${basedir}/build/selenium/classes" quiet="true"/>
@@ -263,12 +230,11 @@
         </javac>
     </target>	
 	
-	<target name="seleniumtest" depends="clean-selenium, build-selenium-test"> 
+	<target name="seleniumtest" depends="clean-selenium, build-selenium-test" > 
 		<delete dir="${basedir}/testReportSelenium" quiet="true"/>
 		<mkdir dir="${basedir}/testReportSelenium" />
 	 	
-
-		<junit printsummary="yes"> 
+		<junit printsummary="yes" failureproperty="selenium.failure"> 
 			<classpath refid="Junit.libraryclasspath"/> 
 			<classpath refid="Selenium.libraryclasspath"/>
 			<formatter type="xml"/> 
@@ -291,5 +257,8 @@
 		<delete dir="${basedir}/testReportSelenium" quiet="true">
 			<include name="*.xml" />
 		</delete> 
+		
+		<fail message="Selenium test failed." if='selenium.failure'>
+		</fail>		
 	</target>	
 </project>
