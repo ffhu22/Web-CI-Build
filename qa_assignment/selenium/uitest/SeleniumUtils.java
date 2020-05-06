@@ -4,10 +4,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -54,11 +57,10 @@ public class SeleniumUtils {
 	public static boolean isContentAppeared(WebDriver driver,String content) {  
 	    boolean status = false;  
 	    try {  
-	        driver.findElement(By.xpath("//*[contains(.,'" + content + "')]"));  
+	        WebElement we = driver.findElement(By.xpath("//*[contains(.,'" + content + "')]")); 
+	        status = we.isDisplayed();
 	        System.out.println(content + " is appeard!");  
-	        status = true;  
 	    } catch (NoSuchElementException e) {  
-	        status = false;  
 	        System.out.println("'" + content + "' doesn't exist!");  
 	    }  
 	    return status;  
@@ -67,14 +69,27 @@ public class SeleniumUtils {
 	public static boolean isTextInInput(WebDriver driver,String inputName, String inputText) {  
 	    boolean status = false;  
 	    try {  
-	    	status = driver.findElement(By.name(inputName)).getText().equals(inputText);
-	        System.out.println(driver.findElement(By.name(inputName)).getAttribute("Value") + " is appeard!");  
-	        status = true;  
+	    	status = driver.findElement(By.name(inputName)).getAttribute("value").equals(inputText);
+	        System.out.println(driver.findElement(By.name(inputName)).getAttribute("value") + " is appeard!");  
 	    } catch (NoSuchElementException e) {  
-	        status = false;  
 	        System.out.println("'" + inputText + "' doesn't exist!");  
 	    }  
 	    return status;  
 	}  
+	
+	public static void assertAndTakeSnapshot(WebDriver driver, boolean b) throws IOException {
+		
+		if(b) {
+			Assert.assertTrue(b);
+		}else {
+			Date now = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
+			File fileA=new File(systemPath + "selenium/resources/" + "Failed_"+dateFormat.format(now));
+			File screenShot=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenShot, fileA);
+			Assert.assertTrue(b);
+		}
+		
+	}
 
 }

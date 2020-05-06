@@ -65,5 +65,5 @@
 	<classpathentry kind="lib" path="lib/org.jacoco.core-0.8.5.201910111838.jar"/>
 	<classpathentry kind="lib" path="lib/org.jacoco.report-0.8.5.201910111838.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="build"/>
+	<classpathentry kind="output" path="build/classes"/>
 </classpath>
