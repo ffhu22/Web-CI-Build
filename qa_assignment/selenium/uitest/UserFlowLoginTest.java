@@ -44,7 +44,7 @@ public class UserFlowLoginTest {
 	public void openLoginPage() throws IOException{
 		//加载到指定url
 		navigation.to(baseUrl);
-		Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.verifyScreenshot(driver, "login.png"));
 	}
 
 	@Test
@@ -61,7 +61,9 @@ public class UserFlowLoginTest {
 	    buttons.get(2).click();
 	   
 	    //Verify Homepage displays, and user name and other UI elements are correct
-	    Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "homepage_Amber.png"));
+	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "homepage_Amber.png"));
+	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Amber"));
+		Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "You are in homepage"));
 	}
 
 	@Test

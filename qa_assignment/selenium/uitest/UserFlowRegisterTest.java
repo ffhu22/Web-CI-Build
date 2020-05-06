@@ -45,7 +45,10 @@ public class UserFlowRegisterTest {
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
 		}
 
 		@Test
@@ -120,6 +123,7 @@ public class UserFlowRegisterTest {
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
 		}	
 
 		@Test

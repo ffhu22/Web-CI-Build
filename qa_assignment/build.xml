@@ -231,7 +231,7 @@
         </javac>
     </target>	
 	
-	<target name="seleniumtest" depends="clean-selenium, build-selenium-test" > 
+	<target name="seleniumtest" depends="deploy-war, clean-selenium, build-selenium-test" > 
 		<delete dir="${basedir}/testReportSelenium" quiet="true"/>
 		<mkdir dir="${basedir}/testReportSelenium" />
 	 	
