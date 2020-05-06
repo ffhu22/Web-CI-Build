@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class UserFlowLoginTest {
 	private WebDriver driver;
@@ -28,11 +29,9 @@ public class UserFlowLoginTest {
 		//设置Chrome浏览器的位置
 		System.setProperty("webdriver.chrome.driver", "/Users/fangfanghu/Documents/All/Tech/Selenium_Practice/chromedriver");
 				
-		//创建WebDriver对象
 		driver = new ChromeDriver();
 		driver.manage().window().setSize(new Dimension(1280,800));
 		navigation = driver.navigate();
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 	}
 
 	@After
@@ -42,17 +41,9 @@ public class UserFlowLoginTest {
 		}
 	}	
 	
-	@Test
-	public void openLoginPage() throws IOException{
-		//加载到指定url
-		navigation.to(baseUrl);
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.verifyScreenshot(driver, "login.png"));
-	}
 
 	@Test
 	public void loginSucessfully() throws IOException {
-		//加载到指定url
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
@@ -76,7 +67,7 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
@@ -90,15 +81,26 @@ public class UserFlowLoginTest {
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 	}	
+/***
+ 
+ 	@Test
+	public void openLoginPage() throws IOException{
+		navigation.to(baseUrl);
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		List<WebElement> buttons = driver.findElements(By.tagName("input"));
+		assertEquals(buttons.get(2).getAttribute("Value"), "Login");
+		Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+	}
+
 
 	@Test
 	public void loginFailedEmptyPassword() throws IOException {
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		//加载到指定url
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
@@ -117,7 +119,7 @@ public class UserFlowLoginTest {
 	public void loginAndExitSucessfully() throws IOException {
 		//加载到指定url
 		navigation.to(baseUrl);
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		//Verify login UI elements
 		//Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
@@ -142,4 +144,5 @@ public class UserFlowLoginTest {
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Amber"));
 	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 	}
+	***/
 }

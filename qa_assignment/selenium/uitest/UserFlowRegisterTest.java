@@ -40,22 +40,10 @@ public class UserFlowRegisterTest {
 		}	
 		
 		@Test
-		public void openRegisterPage() throws IOException{
-			//加载到指定url
-			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
-			
-			driver.findElements(By.tagName("a")).get(0).click();
-			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
-			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
-			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
-			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
-		}
-
-		@Test
 		public void registerSuccessfully() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
@@ -94,6 +82,7 @@ public class UserFlowRegisterTest {
 		public void registerFailedEmptyFirstName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
@@ -129,10 +118,26 @@ public class UserFlowRegisterTest {
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
 		}	
 
+		/***
+		@Test
+		public void openRegisterPage() throws IOException{
+			//加载到指定url
+			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
+			
+			driver.findElements(By.tagName("a")).get(0).click();
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
+		}
+		
 		@Test
 		public void registerFailedEmptyLastName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -162,6 +167,7 @@ public class UserFlowRegisterTest {
 		public void registerFailedEmptyUserName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -189,6 +195,7 @@ public class UserFlowRegisterTest {
 		public void registerFailedEmptyPassword() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -216,6 +223,7 @@ public class UserFlowRegisterTest {
 		public void registerFailedUserNameDenver() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -243,6 +251,7 @@ public class UserFlowRegisterTest {
 		public void registerSuccessfulEmptyAddress() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -271,6 +280,7 @@ public class UserFlowRegisterTest {
 		public void registerSuccessfulEmptyContact() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
@@ -294,4 +304,5 @@ public class UserFlowRegisterTest {
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 		}	
+		***/
 }
