@@ -2,6 +2,7 @@ package uitest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -56,6 +57,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
@@ -93,6 +95,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
@@ -131,7 +134,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
@@ -160,7 +163,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
@@ -187,7 +190,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
@@ -214,7 +217,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
@@ -241,7 +244,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
@@ -269,7 +272,7 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
-			
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
 			driver.findElements(By.tagName("a")).get(0).click();
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			

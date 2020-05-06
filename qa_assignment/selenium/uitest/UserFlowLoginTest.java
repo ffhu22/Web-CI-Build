@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -31,6 +32,7 @@ public class UserFlowLoginTest {
 		driver = new ChromeDriver();
 		driver.manage().window().setSize(new Dimension(1280,800));
 		navigation = driver.navigate();
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 	}
 
 	@After
@@ -44,6 +46,7 @@ public class UserFlowLoginTest {
 	public void openLoginPage() throws IOException{
 		//加载到指定url
 		navigation.to(baseUrl);
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.verifyScreenshot(driver, "login.png"));
 	}
 
@@ -53,6 +56,7 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); 
 		List<WebElement> buttons = driver.findElements(By.tagName("input"));
 		assertEquals(buttons.get(2).getAttribute("Value"), "Login");
 		//Input username/password, Click Login, open Homepage
@@ -72,6 +76,7 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
@@ -88,10 +93,12 @@ public class UserFlowLoginTest {
 
 	@Test
 	public void loginFailedEmptyPassword() throws IOException {
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		//加载到指定url
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
@@ -110,7 +117,7 @@ public class UserFlowLoginTest {
 	public void loginAndExitSucessfully() throws IOException {
 		//加载到指定url
 		navigation.to(baseUrl);
-		
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		//Verify login UI elements
 		//Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
