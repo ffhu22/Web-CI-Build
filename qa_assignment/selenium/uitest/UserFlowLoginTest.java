@@ -70,7 +70,7 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
 		//Input username/password, Click Login, open Homepage
@@ -90,7 +90,7 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
 		//Input username/password, Click Login, open Homepage
