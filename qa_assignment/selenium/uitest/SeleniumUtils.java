@@ -8,9 +8,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /***
  * Note: make sure all benchmark images are copied from resources to resourcesraw from eclipse, do not rename 
@@ -47,4 +50,31 @@ public class SeleniumUtils {
 
 		return matchimg;
 	}
+	
+	public static boolean isContentAppeared(WebDriver driver,String content) {  
+	    boolean status = false;  
+	    try {  
+	        driver.findElement(By.xpath("//*[contains(.,'" + content + "')]"));  
+	        System.out.println(content + " is appeard!");  
+	        status = true;  
+	    } catch (NoSuchElementException e) {  
+	        status = false;  
+	        System.out.println("'" + content + "' doesn't exist!");  
+	    }  
+	    return status;  
+	}  
+	
+	public static boolean isTextInInput(WebDriver driver,String inputName, String inputText) {  
+	    boolean status = false;  
+	    try {  
+	    	status = driver.findElement(By.name(inputName)).getText().equals(inputText);
+	        System.out.println(driver.findElement(By.name(inputName)).getAttribute("Value") + " is appeard!");  
+	        status = true;  
+	    } catch (NoSuchElementException e) {  
+	        status = false;  
+	        System.out.println("'" + inputText + "' doesn't exist!");  
+	    }  
+	    return status;  
+	}  
+
 }

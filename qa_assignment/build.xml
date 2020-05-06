@@ -202,6 +202,7 @@
 				<replaceregex pattern="(\%(&lt;)\/td(&gt;))([\s\S]*)$" replace=""/>
 				</filterchain>
 		</loadresource>
+		<echo message="Code Coverage is ${coveragePercentage}"/>
 		
 		<fail message="Code Coverage is under 80%" if='junit.failure'>
 		</fail>		

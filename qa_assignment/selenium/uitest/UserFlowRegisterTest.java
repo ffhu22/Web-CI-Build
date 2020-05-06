@@ -42,7 +42,7 @@ public class UserFlowRegisterTest {
 		public void openRegisterPage() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
 			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
@@ -52,10 +52,15 @@ public class UserFlowRegisterTest {
 		public void registerSuccessfully() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			List<WebElement> buttons = driver.findElements(By.tagName("input"));
+			buttons.get(buttons.size()-1).getAttribute("value").equals("Submit");
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -64,21 +69,34 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_filled.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_filled.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", "Amber"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", "Grace"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Faith"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", "123"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", "street1"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "contact", "987"));
 			
-			List<WebElement> buttons = driver.findElements(By.tagName("input"));
+			
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 		}
 
 		@Test
 		public void registerFailedEmptyFirstName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 			
 			//driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -87,21 +105,32 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_firstname.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_firstname.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", "Grace"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Faith"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", "123"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", "street1"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "contact", "987"));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
+			buttons.get(buttons.size()-1).getAttribute("value").equals("Submit");
+			
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
 		}	
 
 		@Test
 		public void registerFailedEmptyLastName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			//driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -110,21 +139,26 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_lastname.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_lastname.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Faith"));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			
 		}	
 
 		@Test
 		public void registerFailedEmptyUserName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -133,11 +167,15 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_username.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_username.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", "street1"));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", ""));
 		}	
 		
 		@Test
@@ -147,7 +185,7 @@ public class UserFlowRegisterTest {
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -156,21 +194,25 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_password.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_password.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", "Amber"));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 		}	
 
 		@Test
 		public void registerFailedUserNameDenver() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -179,21 +221,25 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_username_denver.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_username_denver.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Denver"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", "Amber"));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 		}	
 
 		@Test
 		public void registerSuccessfulEmptyAddress() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -202,11 +248,16 @@ public class UserFlowRegisterTest {
 			//driver.findElement(By.name("address")).sendKeys("street1");
 			driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_address.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_address.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", "123"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", ""));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 		}	
 
 		@Test
@@ -216,7 +267,7 @@ public class UserFlowRegisterTest {
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
@@ -225,10 +276,15 @@ public class UserFlowRegisterTest {
 			driver.findElement(By.name("address")).sendKeys("street1");
 			//driver.findElement(By.name("contact")).sendKeys("987");
 			
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_contact.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register_info_empty_contact.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", "street1"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "contact", ""));
 			
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).click();
-			Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_return_from_register.png"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 		}	
 }
