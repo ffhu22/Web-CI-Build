@@ -204,8 +204,12 @@
 		</loadresource>
 		<echo message="Code Coverage is ${coveragePercentage}"/>
 		
-		<fail message="Code Coverage is under 80%" if='junit.failure'>
-		</fail>		
+		<condition property="coverageAboveEighty">
+		  	<matches pattern="[8-9]{1}[0-9]{1}|(100)" string="${coveragePercentage}"/>
+			<!--matches pattern="9[4-9]{1}|(100)" string="${coveragePercentage}"/-->
+		</condition>
+		<fail message="Code Coverage is under 80%"
+		      unless="coverageAboveEighty"/>	
 	    </target>
 
 	
