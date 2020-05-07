@@ -1,10 +1,11 @@
 package com.sample.test;
  
-import static org.junit.Assert.*;
 import java.io.IOException;
 import static org.easymock.EasyMock.*;
+
 import org.junit.Test;
 import com.sample.Login;
+
 import org.junit.After;
 import org.junit.Before;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class LoginTest {
         loginServlet.init(sConfig);
         verify(sConfig);
 	}
-	
+
 	@Test
 	public void testLoginSuccessful() throws ServletException, IOException{
 				expect(mockRequest.getParameter("username")).andReturn("hu");
@@ -123,26 +124,5 @@ public class LoginTest {
 				verify(mockSession);
 				verify(dispatcher);
 	}		
-
-	@Test(expected = ServletException.class)
-	public void testLoginException() throws ServletException, IOException{
-				expect(mockRequest.getParameter("username")).andReturn("hu");
-				expect(mockRequest.getParameter("password")).andReturn("123");
-				
-		        expect(mockRequest.getSession()).andReturn(mockSession);
-				mockSession.setAttribute("username", "hu");
-				
-				expect(mockRequest.getRequestDispatcher("homepage.jsp")).andReturn(dispatcher);
-				dispatcher.forward(mockRequest, mockResponse);
-
-				//回放
-				replay(mockRequest);
-				replay(mockResponse);
-				replay(mockSession);
-				replay(dispatcher);
-				
-				//开始测试Servlet的doPost方法
-				loginServlet.doPost(mockRequest, mockResponse);
-				throw new ServletException();
-	}		
+	
 }

@@ -1,5 +1,7 @@
 package uitest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +16,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserFlowRegisterTest {
 		private WebDriver driver;
@@ -45,7 +49,7 @@ public class UserFlowRegisterTest {
 			navigation.to(baseUrl);
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			//Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
-			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS); 
+			
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
@@ -54,6 +58,14 @@ public class UserFlowRegisterTest {
 			//Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "register.png"));
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).getAttribute("value").equals("Submit");
+			assertEquals(driver.getTitle(), ("Register here"));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "address", ""));
+			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "contact", ""));
+			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
 			
 			driver.findElement(By.name("first_name")).sendKeys("Amber");
 			driver.findElement(By.name("last_name")).sendKeys("Grace");
