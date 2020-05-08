@@ -25,6 +25,14 @@ import org.openqa.selenium.WebElement;
 public class SeleniumUtils {
 	private static String systemPath = "/Users/fangfanghu/Documents/All/Careers/202002job-hunting/Companies/skycope/QA_assignment/qa_assignment/";
 
+	public static void takeScreenshot(WebDriver driver) throws IOException {
+		Date now = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
+		File fileA=new File(systemPath + "selenium/resources/" + "Failed_"+dateFormat.format(now).replaceAll(" ", ""));
+		File screenShot=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(screenShot, fileA);
+	}
+	
 	public static boolean verifyScreenshot(WebDriver driver, String name) throws IOException {
 		File fileA=new File(systemPath + "selenium/resources/" + name);
 		//if(!fileA.exists()) {

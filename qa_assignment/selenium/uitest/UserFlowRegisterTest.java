@@ -34,7 +34,8 @@ public class UserFlowRegisterTest {
 			//创建WebDriver对象
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("--no-sandbox");	
-			options.addArguments("--disable-gpu");	
+			options.addArguments("--disable-gpu");
+			options.addArguments("headless");
 			driver = new ChromeDriver(options);
 			driver.manage().window().setSize(new Dimension(1280,800));
 			navigation = driver.navigate();
@@ -52,12 +53,14 @@ public class UserFlowRegisterTest {
 			//加载到指定url
 			navigation.to(baseUrl);
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-			
+			SeleniumUtils.takeScreenshot(driver);
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			SeleniumUtils.takeScreenshot(driver);
 			List<WebElement> buttons = driver.findElements(By.tagName("input"));
 			buttons.get(buttons.size()-1).getAttribute("value").equals("Submit");
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
@@ -87,22 +90,25 @@ public class UserFlowRegisterTest {
 			
 			buttons.get(buttons.size()-1).click();
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			SeleniumUtils.takeScreenshot(driver);
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 		}
-
+		/***
 		@Test
 		public void registerFailedEmptyFirstName() throws IOException{
 			//加载到指定url
 			navigation.to(baseUrl);
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			SeleniumUtils.takeScreenshot(driver);
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 			
 			driver.findElements(By.tagName("a")).get(0).click();
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			SeleniumUtils.takeScreenshot(driver);
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 			
 			//driver.findElement(By.name("first_name")).sendKeys("Amber");
@@ -124,11 +130,12 @@ public class UserFlowRegisterTest {
 			
 			buttons.get(buttons.size()-1).click();
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			SeleniumUtils.takeScreenshot(driver);
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "first_name", ""));
 			Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "last_name", ""));
 			Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sample Register Form"));
 		}	
-		/***
+		
 		@Test
 		public void registerFailedEmptyLastName() throws IOException{
 			//加载到指定url

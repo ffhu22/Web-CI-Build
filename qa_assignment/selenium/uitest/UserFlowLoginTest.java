@@ -31,7 +31,7 @@ public class UserFlowLoginTest {
 		System.setProperty("webdriver.chrome.driver", "/Users/fangfanghu/Documents/All/Tech/Selenium_Practice/chromedriver");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--no-sandbox");	
-		options.addArguments("--disable-gpu");	
+		options.addArguments("--disable-gpu");
 		driver = new ChromeDriver(options);
 	
 		driver.manage().window().setSize(new Dimension(1280,800));
@@ -51,18 +51,21 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		SeleniumUtils.takeScreenshot(driver);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
 		//Input username/password, Click Login, open Homepage
 	    List<WebElement> buttons = driver.findElements(By.tagName("input"));
 	    driver.findElement(By.name("password")).sendKeys("123");
+	    SeleniumUtils.takeScreenshot(driver);
 	    buttons.get(2).click();
 	   
 	    //Verify login displays, and UI elements are correct
 	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	    SeleniumUtils.takeScreenshot(driver);
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 	    assertEquals(driver.getTitle(), ("Logon Sample System"));
@@ -75,7 +78,8 @@ public class UserFlowLoginTest {
 		navigation.to(baseUrl);
 		
 		//Verify login UI elements
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		SeleniumUtils.takeScreenshot(driver);
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 
@@ -87,6 +91,7 @@ public class UserFlowLoginTest {
 	    //Verify login displays, and UI elements are correct
 	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login.png"));
 	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	    SeleniumUtils.takeScreenshot(driver);
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
 	    assertEquals(driver.getTitle(), ("Logon Sample System"));
@@ -96,7 +101,8 @@ public class UserFlowLoginTest {
 	public void loginAndExitSucessfully() throws IOException {
 		//加载到指定url
 		navigation.to(baseUrl);
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		SeleniumUtils.takeScreenshot(driver);
 		//Verify login UI elements
 		//Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 		SeleniumUtils.assertAndTakeSnapshot(driver, SeleniumUtils.isTextInInput(driver, "username", ""));
@@ -113,6 +119,7 @@ public class UserFlowLoginTest {
 	    //Verify Homepage displays, and UI elements are correct
 	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "homepage_Amber.png"));
 	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	    SeleniumUtils.takeScreenshot(driver);
 	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Amber"));
 	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "You are in homepage"));
 	    assertEquals(driver.getTitle(), ("Logon success"));
@@ -122,6 +129,7 @@ public class UserFlowLoginTest {
 	    driver.findElement(By.cssSelector("input")).click();
 	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "login_Amber.png"));
 	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	    SeleniumUtils.takeScreenshot(driver);
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", "Amber"));
 	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Sign Up"));
 	    assertEquals(driver.getTitle(), ("Logon Sample System"));

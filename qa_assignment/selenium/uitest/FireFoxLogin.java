@@ -26,7 +26,7 @@ public class FireFoxLogin {
 	private Navigation navigation;
 	private String baseUrl = "http://localhost:8080/Web_Application/logon.jsp";
 	//http://68d56a5d.ngrok.io/Web_Application/
-	
+	/***
 	@Before
 	public void setUp() {
 		//设置Chrome浏览器的位置
@@ -133,7 +133,7 @@ public class FireFoxLogin {
 	    assertEquals(driver.getTitle(), ("Logon Sample System"));
 	}
 	
-	/***
+	
 	@Test
 	public void openLoginPage() throws IOException{
 		navigation.to(baseUrl);
