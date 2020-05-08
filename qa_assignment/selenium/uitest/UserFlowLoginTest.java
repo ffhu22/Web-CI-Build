@@ -134,46 +134,5 @@ public class UserFlowLoginTest {
 	    assertEquals(driver.getTitle(), ("Logon Sample System"));
 	}	
 	 
-	@Test
-	public void openLoginPage() throws IOException{
-		navigation.to(baseUrl);
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-		List<WebElement> buttons = driver.findElements(By.tagName("input"));
-		if(buttons.size()==0) {
-			driver.navigate().refresh();
-			buttons = driver.findElements(By.tagName("input"));
-		}
-		assertEquals(buttons.get(2).getAttribute("Value"), "Login");
-		Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
-	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
-	    assertEquals(driver.getTitle(), ("Logon Sample System"));
-	}
-	@Test
-	public void loginSucessfully() throws IOException {
-		navigation.to(baseUrl);
-		
-		//Verify login UI elements
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); 
-		
-		List<WebElement> buttons = driver.findElements(By.tagName("input"));
-		if(buttons.size()==0) {
-			driver.navigate().refresh();
-			buttons = driver.findElements(By.tagName("input"));
-		}
-		assertEquals(buttons.get(2).getAttribute("Value"), "Login");
-		assertEquals(driver.getTitle(), ("Logon Sample System"));
-		Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
-	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
-		//Input username/password, Click Login, open Homepage
-	    driver.findElement(By.name("username")).sendKeys("Amber");
-	    driver.findElement(By.name("password")).sendKeys("123");
-	    buttons.get(2).click();
-	   
-	    //Verify Homepage displays, and user name and other UI elements are correct
-	    //Assert.assertTrue(SeleniumUtils.verifyScreenshot(driver, "homepage_Amber.png"));
-	    assertEquals(driver.getTitle(), ("Logon success"));
-	    Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "Amber"));
-		Assert.assertTrue(SeleniumUtils.isContentAppeared(driver, "You are in homepage"));
-	}
 
 }
