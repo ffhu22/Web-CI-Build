@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 		if (username.isEmpty() || password.isEmpty()) {
 			HttpSession session=request.getSession();
 			session.setAttribute("username", username);
-			RequestDispatcher req = request.getRequestDispatcher("register.jsp");
+			RequestDispatcher req = request.getRequestDispatcher("logon.jsp");
 			req.include(request, response);
 		} else {
 			HttpSession session = request.getSession();
