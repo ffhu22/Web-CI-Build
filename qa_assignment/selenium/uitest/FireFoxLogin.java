@@ -18,8 +18,10 @@ import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
-public class UserFlowLoginTest {
+public class FireFoxLogin {
 	private WebDriver driver;
 	private Navigation navigation;
 	private String baseUrl = "http://localhost:8080/Web_Application/logon.jsp";
@@ -28,14 +30,18 @@ public class UserFlowLoginTest {
 	@Before
 	public void setUp() {
 		//设置Chrome浏览器的位置
-		System.setProperty("webdriver.chrome.driver", "/Users/fangfanghu/Documents/All/Tech/Selenium_Practice/chromedriver");
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--no-sandbox");	
-		options.addArguments("--disable-gpu");	
-		driver = new ChromeDriver(options);
+		System.setProperty("webdriver.gecko.driver", "/Users/fangfanghu/Documents/All/Tech/Selenium_Practice/geckodriver");	
+		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox.app");	
+		driver = new FirefoxDriver();
 	
 		driver.manage().window().setSize(new Dimension(1280,800));
 		navigation = driver.navigate();
+		try {						
+			//Thread.sleep(500);
+			//TimeUnit.MILLISECONDS.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@After
