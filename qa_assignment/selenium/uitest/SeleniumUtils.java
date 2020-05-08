@@ -24,14 +24,6 @@ import org.openqa.selenium.WebElement;
  */
 public class SeleniumUtils {
 	private static String systemPath = "/Users/fangfanghu/Documents/All/Careers/202002job-hunting/Companies/skycope/QA_assignment/qa_assignment/";
-
-	public static void takeScreenshot(WebDriver driver) throws IOException {
-		Date now = new Date(); 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
-		File fileA=new File(systemPath + "selenium/resources/" + "Failed_"+dateFormat.format(now).replaceAll(" ", ""));
-		File screenShot=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screenShot, fileA);
-	}
 	
 	public static boolean verifyScreenshot(WebDriver driver, String name) throws IOException {
 		File fileA=new File(systemPath + "selenium/resources/" + name);
@@ -67,10 +59,18 @@ public class SeleniumUtils {
 	    try {  
 	        WebElement we = driver.findElement(By.xpath("//*[contains(.,'" + content + "')]")); 
 	        status = we.isDisplayed();
+	        if(!status) {
+		    	driver.navigate().refresh();
+		    	System.out.println(content + " is appeard!");  
+		    	driver.navigate().refresh();
+		    	we = driver.findElement(By.xpath("//*[contains(.,'" + content + "')]")); 
+		        status = we.isDisplayed();
+	        }  
 	        System.out.println(content + " is appeard!");  
 	    } catch (NoSuchElementException e) {  
 	        System.out.println("'" + content + "' doesn't exist!");  
 	    }  
+	    
 	    return status;  
 	}  
 	
@@ -78,25 +78,30 @@ public class SeleniumUtils {
 	    boolean status = false;  
 	    try {  
 	    	status = driver.findElement(By.name(inputName)).getAttribute("value").equals(inputText);
+	    	 if(!status) {
+	 	    	driver.navigate().refresh();
+	 	    	System.out.println(driver.findElement(By.name(inputName)).getAttribute("value") + " is appeard!"); 
+	 	    	driver.navigate().refresh();
+	 	    	status = driver.findElement(By.name(inputName)).getAttribute("value").equals(inputText);
+	    	 }
 	        System.out.println(driver.findElement(By.name(inputName)).getAttribute("value") + " is appeard!");  
 	    } catch (NoSuchElementException e) {  
 	        System.out.println("'" + inputText + "' doesn't exist!");  
 	    }  
+	    
 	    return status;  
 	}  
 	
 	public static void assertAndTakeSnapshot(WebDriver driver, boolean b) throws IOException {
 		
-		if(b) {
-			Assert.assertTrue(b);
-		}else {
+		if(!b) {
 			Date now = new Date(); 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
 			File fileA=new File(systemPath + "selenium/resources/" + "Failed_"+dateFormat.format(now));
 			File screenShot=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(screenShot, fileA);
-			Assert.assertTrue(b);
 		}
+		Assert.assertTrue(b);
 		
 	}
 
