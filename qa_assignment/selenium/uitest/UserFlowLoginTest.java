@@ -66,7 +66,7 @@ public class UserFlowLoginTest {
 	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "username", ""));
 	    Assert.assertTrue(SeleniumUtils.isTextInInput(driver, "password", ""));
-	    assertEquals(driver.getTitle(), ("Logon Sample System"));
+	    assertEquals(driver.getTitle(), ("Register here"));
 	}	
 
 	
