@@ -79,7 +79,7 @@ public class LoginTest {
 		        expect(mockRequest.getSession()).andReturn(mockSession);
 				mockSession.setAttribute("username", "");
 				
-				expect(mockRequest.getRequestDispatcher("logon.jsp")).andReturn(dispatcher);
+				expect(mockRequest.getRequestDispatcher("register.jsp")).andReturn(dispatcher);
 				dispatcher.include(mockRequest, mockResponse);
 
 				//回放
@@ -106,7 +106,7 @@ public class LoginTest {
 		        expect(mockRequest.getSession()).andReturn(mockSession);
 				mockSession.setAttribute("username", "hu");
 				
-				expect(mockRequest.getRequestDispatcher("logon.jsp")).andReturn(dispatcher);
+				expect(mockRequest.getRequestDispatcher("register.jsp")).andReturn(dispatcher);
 				dispatcher.include(mockRequest, mockResponse);
 
 				//回放
