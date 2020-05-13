@@ -2,7 +2,9 @@
 A web project integrated unit test, deploy, and selenium test, the complete CI process
 
 This web project is a practice of continuous integration process.
+
 Features suported:
+
 0. Tomcat 9.0 + Github + Jenkins (support remote access)
 1. Junit test + Easy mock
 2. Jacoco to check the code coverage
